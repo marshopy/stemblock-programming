@@ -1,0 +1,137 @@
+═══════════════════════════════════════════════════════════
+  🧋  BOBA MEMORY MATCH  —  HINTS FILE
+  Read only the hint you need!  Try the gap yourself first.
+═══════════════════════════════════════════════════════════
+
+
+──────────────────────────────────────────
+  GAP 1  HINTS  —  create_card_values()
+──────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Think about what DRINK_PAIRS looks like:
+          [
+            ("Milk Tea 🧋", "$3.50"),
+            ("Taro Tea 🫧",  "$4.00"),
+            ...
+          ]
+      You need to get BOTH parts of each pair into one flat list.
+
+  HINT 2 (medium):
+      Start your function like this:
+          all_values = []
+          for pair in DRINK_PAIRS:
+              all_values.append(___)    # the drink name
+              all_values.append(___)    # the price
+
+      Fill in the blanks.  Remember: pair[0] is the name, pair[1] is the price.
+
+  HINT 3 (strong):
+      After the loop, add these two lines at the same indentation as 'for':
+          random.shuffle(all_values)
+          return all_values
+
+
+──────────────────────────────────────────
+  GAP 2  HINTS  —  update_score_display()
+──────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Remember how you updated total_label in the Boba Shop?
+          total_label.config(text=f"Total: ${total:.2f}")
+      Do the same thing here but for score_label.
+
+  HINT 2 (medium):
+      score_label.config(text=f"Matches: {___} / 6   |   Attempts: {___}")
+      Fill in the two blanks with the correct variable names.
+
+  HINT 3 (strong):
+      score_label.config(
+          text=f"Matches: {matched} / 6   |   Attempts: {attempts}"
+      )
+
+
+──────────────────────────────────────────
+  GAP 3  HINTS  —  check_win()
+──────────────────────────────────────────
+
+  HINT 1 (gentle):
+      How many pairs are there in total?  Count the rows in DRINK_PAIRS.
+      When 'matched' equals that number, the player has won.
+
+  HINT 2 (medium):
+      if matched ___ 6:
+          win_label.config(text="...")
+      What comparison operator checks if two things are EQUAL?
+      (Not = which assigns.  The double one that compares!)
+
+  HINT 3 (strong):
+      if matched == 6:
+          win_label.config(text="🎉 You matched all the boba drinks! Amazing! 🧋")
+
+
+──────────────────────────────────────────
+  GAP 4  HINTS  —  check_match()
+──────────────────────────────────────────
+
+  HINT 1 (gentle):
+      'flipped' is a list like [3, 7].
+      That means card index 3 and card index 7 are face-up.
+      card_values[3] tells you the TEXT on card 3.
+
+  HINT 2 (medium — getting the values):
+      idx1 = flipped[0]        # index of the first flipped card
+      idx2 = flipped[1]        # index of the second flipped card
+      val1 = card_values[idx1] # text on the first card
+      val2 = card_values[idx2] # text on the second card
+
+  HINT 3 (medium — the if/else):
+      if find_pair(val1) == val2:
+          # they match!
+          cards[idx1].config(state=tk.DISABLED, bg="#98FB98")
+          cards[idx2].config(state=tk.DISABLED, bg="#98FB98")
+          matched = matched + 1
+          flipped.clear()
+      else:
+          # they don't match — flip back after 1 second
+          def flip_back():
+              cards[idx1].config(text="?", bg="#FFB6C1")
+              cards[idx2].config(text="?", bg="#FFB6C1")
+              flipped.clear()
+          window.after(1000, flip_back)
+
+  HINT 4 (strong — don't forget the end!):
+      After the entire if/else block, add:
+          update_score_display()
+          check_win()
+
+  HINT 5 (why global?):
+      matched = matched + 1  changes the value of 'matched'.
+      Because 'matched' lives outside this function, Python needs
+      'global matched, flipped' at the top of the function.
+      Without it you will get an UnboundLocalError.
+
+
+──────────────────────────────────────────
+  COMMON ERRORS & FIXES
+──────────────────────────────────────────
+
+  Error: "name 'matched' is not defined" or "UnboundLocalError"
+      Fix: Add  global matched, flipped  as the very first line
+           inside check_match().
+
+  Error: The window opens but all cards show "?" forever
+      Fix: check create_card_values() — make sure it RETURNS the list.
+           Did you forget  return all_values  at the end?
+
+  Error: Score label never updates
+      Fix: Check update_score_display() — did you use .config(text=...)?
+           Make sure you're not still leaving 'pass' in the function.
+
+  Error: Game never shows "You win!"
+      Fix: Check check_win() — is your condition  matched == 6  (two equals)?
+           Also make sure check_win() is called at the end of check_match().
+
+  Error: Cards flip back instantly without delay
+      Fix: In the else branch, make sure you have  window.after(1000, flip_back)
+           and that flip_back is a function DEFINED inside the else block.
