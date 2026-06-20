@@ -1,0 +1,254 @@
+
+═══════════════════════════════════════════════════════════
+  🧋  BOBA TRIVIA RUSH  —  HINTS FILE
+  Try the gap yourself first!
+  Read only the hint level you actually need.
+═══════════════════════════════════════════════════════════
+
+
+──────────────────────────────────────────────────────────
+  GAP 1  HINTS  —  build_wrong_answers(correct_price)
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      You need a list of prices that are NOT the correct one.
+      Start by making an empty list, then loop through ALL_PRICES.
+      Each time a price is different from correct_price, add it!
+
+  HINT 2 (medium):
+      wrong_pool = []
+      for price in ALL_PRICES:
+          if price ___ correct_price:   # what operator means "not equal"?
+              wrong_pool.append(price)
+
+      The "not equal" operator is  !=   (an exclamation mark then equals)
+
+  HINT 3 (strong):
+      wrong_pool = []
+      for price in ALL_PRICES:
+          if price != correct_price:
+              wrong_pool.append(price)
+      wrong_three = random.sample(wrong_pool, 3)
+      return wrong_three
+
+  HINT 4 (what is random.sample?):
+      random.sample(some_list, n) picks n UNIQUE items from some_list.
+      Example:
+          random.sample(["a", "b", "c", "d", "e"], 3)
+          might return   ["c", "a", "e"]
+      It's like shuffling then taking the first n items — no repeats!
+
+
+──────────────────────────────────────────────────────────
+  GAP 2  HINTS  —  load_question()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Think about what you need:
+        1. Which drink is this question about?
+        2. What is that drink's price?
+        3. How do you show the drink name on the label?
+        4. How do you put 4 prices on 4 buttons?
+
+  HINT 2 (medium — picking the drink):
+      question_order is a shuffled list of drink names.
+      question_num starts at 1, but list indexes start at 0.
+      So the drink for question 1 is at index 0:
+          current_drink = question_order[question_num - 1]
+
+  HINT 3 (medium — dictionary lookup):
+      To look up a value in a dictionary, use square brackets:
+          correct_price = DRINK_DICT[current_drink]
+      This is like asking: "what is the price of this drink?"
+
+  HINT 4 (medium — wiring the buttons):
+      answers = [correct_price] + build_wrong_answers(correct_price)
+      random.shuffle(answers)
+      for i in range(4):
+          price = answers[i]
+          answer_buttons[i].config(
+              text=price,
+              bg="#C8E6FA",
+              state=tk.NORMAL,
+              command=lambda p=price: answer_clicked(p)
+          )
+
+  HINT 5 (why lambda p=price?):
+      Without p=price, every button's command would share the SAME
+      variable 'price', which ends up as the last value in the loop.
+      Writing  lambda p=price:  "locks in" each button's own price
+      at the moment the button is created.  This is a common Python trick!
+
+
+──────────────────────────────────────────────────────────
+  GAP 3  HINTS  —  tick()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      tick() needs to do four things:
+        1. Reduce time_left by 1
+        2. Update the timer label to show the new number
+        3. Shrink the red timer bar
+        4. Either call time_up() or schedule tick() to run again
+
+  HINT 2 (medium — label update):
+      timer_label.config(text=f"⏱  {time_left}")
+      (Use an f-string just like you did in the Boba Shop!)
+
+  HINT 3 (medium — shrinking the bar):
+      ratio     = time_left / TIMER_SECONDS
+      new_width = int(440 * ratio)
+      timer_bar_canvas.coords(timer_bar, 0, 0, new_width, 14)
+
+      When time_left = 8 (full):  ratio = 1.0,  width = 440
+      When time_left = 4 (half):  ratio = 0.5,  width = 220
+      When time_left = 0 (empty): ratio = 0.0,  width = 0
+
+  HINT 4 (medium — the if/else at the end):
+      if time_left <= 0:
+          time_up()
+      else:
+          timer_id = window.after(1000, tick)
+
+  HINT 5 (strong — all together):
+      global time_left, timer_id
+      time_left = time_left - 1
+      timer_label.config(text=f"⏱  {time_left}")
+      ratio     = time_left / TIMER_SECONDS
+      new_width = int(440 * ratio)
+      timer_bar_canvas.coords(timer_bar, 0, 0, new_width, 14)
+      if time_left <= 0:
+          time_up()
+      else:
+          timer_id = window.after(1000, tick)
+
+
+──────────────────────────────────────────────────────────
+  GAP 4  HINTS  —  answer_clicked(chosen_price)
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Four things need to happen when a button is clicked:
+        1. Stop the timer (so it doesn't count past 0!)
+        2. Disable all buttons
+        3. Check if the answer is right or wrong, update score/lives
+        4. Schedule the next question
+
+  HINT 2 (medium — stopping the timer + disabling buttons):
+      stop_timer()
+      for btn in answer_buttons:
+          btn.config(state=tk.DISABLED)
+
+  HINT 3 (medium — judging the answer):
+      if chosen_price == correct_price:
+          score = score + 10
+          feedback_label.config(text="✅ Correct! +10 points", fg="#28A745")
+      else:
+          lives = lives - 1
+          feedback_label.config(
+              text=f"❌ Wrong!  It was {correct_price}", fg="#DC3545"
+          )
+
+  HINT 4 (medium — scheduling the next question):
+      update_display()
+      window.after(1500, next_question)
+
+  HINT 5 (don't forget!):
+      Add  global score, lives  as the very first line.
+      Without it Python won't let you change score or lives!
+
+
+──────────────────────────────────────────────────────────
+  GAP 5  HINTS  —  update_display()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      You need to update 3 labels: score_label, lives_label,
+      and question_label.  Use .config(text=...) on each one.
+
+  HINT 2 (medium — score label):
+      score_label.config(text=f"Score: {score}")
+
+  HINT 3 (medium — lives hearts):
+      "❤️ " * 3  gives  "❤️ ❤️ ❤️ "
+      "❤️ " * 1  gives  "❤️ "
+      "❤️ " * 0  gives  ""  (empty when no lives left)
+
+      hearts = "❤️ " * lives
+      lives_label.config(text=hearts)
+
+  HINT 4 (medium — question counter):
+      question_label.config(text=f"Q {question_num} / {TOTAL_QUESTIONS}")
+
+  HINT 5 (strong — all three together):
+      score_label.config(text=f"Score: {score}")
+      hearts = "❤️ " * lives
+      lives_label.config(text=hearts)
+      question_label.config(text=f"Q {question_num} / {TOTAL_QUESTIONS}")
+
+
+──────────────────────────────────────────────────────────
+  GAP 6  HINTS  —  check_game_over()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      The game ends when the player has no lives left OR when they
+      have answered all 8 questions.  Think about which Python
+      keyword lets you combine two conditions with "or".
+
+  HINT 2 (medium):
+      if lives == 0 or question_num > TOTAL_QUESTIONS:
+          # game is over
+      else:
+          # game continues
+
+      Fill in what to call in each branch!
+
+  HINT 3 (strong):
+      if lives == 0 or question_num > TOTAL_QUESTIONS:
+          show_final_screen()
+      else:
+          load_question()
+
+  HINT 4 (common mistake!):
+      Do NOT use two separate if statements like:
+          if lives == 0 or question_num > TOTAL_QUESTIONS:
+              show_final_screen()
+          if not (lives == 0 or question_num > TOTAL_QUESTIONS):
+              load_question()
+
+      Use if/ELSE.  The else makes it clear: only ONE branch runs.
+
+
+──────────────────────────────────────────────────────────
+  COMMON ERRORS & FIXES
+──────────────────────────────────────────────────────────
+
+  Error: Window opens but drink_label still shows "?" after the game starts
+      Fix: Check Gap 2 — did you call  drink_label.config(text=current_drink) ?
+           Also make sure load_question() is calling  start_timer()  at the end.
+
+  Error: "UnboundLocalError: local variable 'score' referenced before assignment"
+      Fix: Add  global score, lives  as the very first line inside answer_clicked().
+           Without 'global', Python treats them as new local variables.
+
+  Error: Timer counts down but nothing happens when it hits 0
+      Fix: Check Gap 3 — make sure your if/else uses  time_left <= 0  (not ==)
+           and that you are calling  time_up()  in the if branch.
+
+  Error: All 4 answer buttons show the same price
+      Fix: Check Gap 2 Step 6 — make sure you wrote  lambda p=price:  NOT  lambda: .
+           Without  p=price  all buttons capture the same final value of 'price'.
+
+  Error: Score/lives labels never change
+      Fix: Check Gap 5 — did you use .config(text=...) on all three labels?
+           Also check that Gap 4 actually calls update_display().
+
+  Error: Game never ends / "Play Again" button never appears
+      Fix: Check Gap 6 — make sure check_game_over() calls show_final_screen()
+           when the condition is true, and that next_question() calls check_game_over().
+
+  Error: Game ends immediately / always shows final screen
+      Fix: Check the condition in Gap 6.  question_num starts at 1, so
+           question_num > TOTAL_QUESTIONS  (greater-than, not >=) is correct.
+           If you used >=, the game ends after question 7!

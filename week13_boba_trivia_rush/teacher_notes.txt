@@ -1,0 +1,363 @@
+
+═══════════════════════════════════════════════════════════
+  🧋  BOBA TRIVIA RUSH  —  TEACHER NOTES
+  Week 13  |  Level 2 Python
+  ⚠️  For instructor use only
+═══════════════════════════════════════════════════════════
+
+
+── OVERVIEW ────────────────────────────────────────────────
+
+  This week students build a timed trivia quiz game.  It
+  deliberately steps up from Week 12 (Memory Match) in three ways:
+
+    1.  MORE GAPS  (6 instead of 4) — each gap is still scaffolded
+        but students must assemble more moving parts themselves.
+
+    2.  NEW DATA STRUCTURE  — dictionaries replace plain lists as
+        the main way data is stored and looked up.
+
+    3.  TIMER LOGIC  — window.after() is now used recursively to
+        create a real countdown, not just a one-shot delay.
+
+  Estimated class time:
+    10 min  —  Recap Week 12 + dictionary intro (slides 1-8)
+    10 min  —  Game walkthrough + gap overview (slides 9-11)
+    30 min  —  Students work through gaps 1-6
+     5 min  —  Share & celebrate, bonus challenges (slides 17-19)
+    ──────────
+    55 min  total
+
+
+── NEW CONCEPTS TO INTRODUCE ───────────────────────────────
+
+  DICTIONARIES (new)
+  ──────────────────
+  Most students will not have seen dictionaries before.
+  Use the boba analogy on slide 5:  "a menu IS a dictionary — the
+  drink name is the key, the price is the value."
+
+  Key points to cover:
+    • Syntax:   { key: value, key: value }
+    • Lookup:   DRINK_DICT["Milk Tea 🧋"]  →  "$3.50"
+    • Keys are unique; values do not have to be
+    • list(dict.keys()) and list(dict.values()) give plain lists
+
+  Common confusion:  students mix up [ ] for lists vs. { } for dicts.
+  Show them both on the same slide and contrast.
+
+  RANDOM.SAMPLE (new)
+  ───────────────────
+  Students know random.shuffle and random.choice from Week 12.
+  Introduce random.sample as "pick N unique items from a list."
+  Demo: random.sample(["a","b","c","d","e"], 3)
+  Key point:  no duplicates — unlike calling random.choice 3 times.
+
+  RECURSIVE WINDOW.AFTER (extended)
+  ───────────────────────────────────
+  Week 12 used window.after(1000, flip_back) as a one-shot delay.
+  This week tick() schedules ITSELF again:
+      timer_id = window.after(1000, tick)
+  Draw a diagram:  tick → (1 sec) → tick → (1 sec) → tick → …
+  Explain why we store the return value in timer_id:
+  so stop_timer() can cancel the next scheduled call
+  with window.after_cancel(timer_id).
+
+
+── GAP-BY-GAP TEACHING NOTES ──────────────────────────────
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 1  —  build_wrong_answers(correct_price)        │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • Filtering a list with a for loop + if
+    • random.sample (new this week)
+    • Building up a list with append
+
+  MOST COMMON MISTAKES:
+
+    ① Forgetting to return wrong_three
+        Symptom: answer buttons are blank; game doesn't start
+        Fix:     Ask "what does every function that gives back data
+                 need at the end?" → return
+
+    ② Using random.choice instead of random.sample
+        Symptom: game works but sometimes two wrong answers are
+                 the same price (e.g., $3.50 appears twice)
+        Fix:     Explain the difference on the board — choice picks
+                 one at a time (duplicates possible),
+                 sample picks many at once (guaranteed unique)
+
+    ③ Using ==  instead of  !=  in the filter
+        Symptom: wrong_pool contains ONLY the correct price,
+                 so random.sample crashes ("population is too small")
+        Fix:     Read the error message together — "population" is
+                 wrong_pool; "too small" means it has fewer than 3 items
+
+  TEACHING MOVE — if a student is stuck:
+    Ask them to print(wrong_pool) right before the return and
+    run the game.  Seeing the list in the console usually
+    makes the problem obvious.
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 2  —  load_question()                           │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • Dictionary lookup with a variable key
+    • List indexing with an offset (question_num - 1)
+    • The lambda p=price default-argument trick
+
+  MOST COMMON MISTAKES:
+
+    ① current_drink = question_order[question_num]  (off by one)
+        Symptom: IndexError when question_num reaches 8
+                 (index 8 doesn't exist in a list of 8)
+        Fix:     Ask "if question_num is 1, which slot do we want?
+                 Slot 1 or slot 0?"  → subtract 1
+
+    ② correct_price = DRINK_DICT(current_drink)  (parentheses!)
+        Symptom: TypeError "dict is not callable"
+        Fix:     Remind students: functions use (), dictionaries use []
+
+    ③ lambda: answer_clicked(price)  (missing p=price capture)
+        Symptom: all 4 buttons call answer_clicked with the SAME price
+                 (whichever price was last assigned to 'price' in the loop)
+        Fix:     This is a classic Python closure gotcha.
+                 Demonstrate the issue first:
+                   fns = []
+                   for i in range(3):
+                       fns.append(lambda: i)   # all return 2
+                 Then show the fix with default args.
+                 The comments in game.py and hints.txt already explain this.
+
+    ④ Forgetting start_timer() at the end
+        Symptom: question loads but no countdown appears
+        Fix:     "What starts the timer?" → point to the step list
+
+  TEACHING MOVE:
+    After Gap 2 is working, encourage students to click "Play Again"
+    and notice that a different drink appears first each game.
+    Ask: "Why does the order change?"  → question_order is shuffled
+    in start_game() each time.
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 3  —  tick()                                    │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • Recursive scheduling with window.after
+    • Proportional calculation (ratio × max_width)
+    • Storing a return value for later cancellation
+
+  MOST COMMON MISTAKES:
+
+    ① Forgetting  global time_left, timer_id
+        Symptom: UnboundLocalError on time_left = time_left - 1
+        Fix:     Same global rule as Week 12 — any variable you
+                 reassign inside a function must be declared global
+
+    ② Using window.after(1000, tick())  (calling tick immediately)
+        Symptom: maximum recursion depth error; Python freezes
+        Fix:     The difference between  tick  (a reference to the
+                 function) and  tick()  (call it right now).
+                 window.after wants the reference, not the result.
+
+    ③ Checking  time_left == 0  instead of  time_left <= 0
+        Symptom: if tick() ever fires slightly late, time_left might
+                 skip from 1 to -1 and the game never ends
+                 (very rare but worth mentioning to stronger students)
+        Fix:     <=  is the safer guard
+
+    ④ Placing the if/else outside the function or at wrong indent
+        Symptom: SyntaxError or IndentationError
+        Fix:     Indent check — all steps should be at the same level
+                 inside the function body
+
+  TEACHING MOVE:
+    Draw the timeline on the whiteboard:
+      t=0s: tick() runs → time_left=7 → schedules tick() at t=1s
+      t=1s: tick() runs → time_left=6 → schedules tick() at t=2s
+      ...
+      t=8s: tick() runs → time_left=0 → calls time_up() (no reschedule)
+    Then show what stop_timer() does: it cancels the next scheduled tick
+    so the chain stops even if the player answers before time runs out.
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 4  —  answer_clicked(chosen_price)              │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • Coordinating multiple state variables (score, lives)
+    • Calling stop_timer() defensively before any other logic
+    • Using a parameter to decide which branch to take
+
+  MOST COMMON MISTAKES:
+
+    ① Not calling stop_timer() first
+        Symptom: time_up() fires AFTER the player clicked
+                 (shows "Time's up" on top of "Correct!")
+        Fix:     "What's the very first thing that should happen
+                 when a button is clicked?" → stop the clock
+
+    ② Not disabling the buttons
+        Symptom: player can click a second button; score/lives
+                 updated twice; next_question() called twice
+        Fix:     Show the for loop that disables all four buttons
+
+    ③ Missing  global score, lives
+        Symptom: UnboundLocalError
+        Fix:     Same as every function that changes a global variable
+
+    ④ Using =  instead of ==  in the comparison
+        Symptom: SyntaxError
+        Fix:     "= assigns, == compares" — print this on the wall!
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 5  —  update_display()                          │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • Updating multiple widgets in one function
+    • String repetition with  *  operator
+    • The pattern of centralising UI updates in one function
+
+  MOST COMMON MISTAKES:
+
+    ① Confusing  *  (multiplication) for string repetition
+        Most students immediately understand "❤️ " * lives once shown,
+        but some try  str(lives) + "❤️"  which only adds one heart.
+        Fix:     Show the Python shell:  "❤️ " * 3
+
+    ② Forgetting the space after "❤️ "
+        Symptom: hearts are squished together "❤️❤️❤️"
+        Fix:     Minor aesthetic fix — point it out and move on
+
+    ③ Using TOTAL_QUESTIONS incorrectly in the label
+        Symptom: label shows "Q 4 / 8" when it should (correct)
+                 or shows "Q 4 / None" if they type TOTAL instead
+        Fix:     Read the variable name carefully
+
+  TEACHING MOVE:
+    This is a good gap to use as a "compare & contrast" with Week 12.
+    In Week 12 they updated one label (score_label).
+    In Week 13 they update three labels in one function.
+    Ask: "Why is it useful to put all three updates in one function
+    instead of copying the code three times?"  → DRY principle preview
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 6  —  check_game_over()                         │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT TEACHES:
+    • The  or  boolean operator
+    • if/else as a binary decision (only one branch runs)
+    • Thinking about end conditions
+
+  MOST COMMON MISTAKES:
+
+    ① Using two separate if statements instead of if/else
+        Symptom: show_final_screen() AND load_question() both run;
+                 game crashes or a ghost question appears behind
+                 the final screen
+        Fix:     "Can two if statements both be True at the same time?
+                 Yes!  Can if/else both be True?  No, only one runs."
+
+    ② question_num >= TOTAL_QUESTIONS  (off by one, game ends early)
+        Symptom: final screen appears after question 7 (not 8)
+        Fix:     Trace through: after question 8, next_question()
+                 increments to 9, then check_game_over() runs.
+                 9 > 8 is True.  So  >  (not >=) is correct.
+
+    ③ Swapping show_final_screen and load_question
+        Symptom: shows final screen immediately, can never play
+        Fix:     Read the condition aloud: "IF lives==0 OR past Q8
+                 THEN game over.  ELSE, next question."
+
+  TEACHING MOVE:
+    Use this gap to introduce the concept of "exit conditions."
+    Ask: "In real life, how do you know when a game of Uno is over?"
+    → When someone runs out of cards.
+    "How does the computer know?"
+    → We have to write the condition ourselves.
+
+
+── AFTER ALL GAPS ARE DONE ─────────────────────────────────
+
+  EXPECTED WORKING GAME FLOW:
+    1. Window opens showing drink name, 4 price buttons, timer bar
+    2. Timer counts down 8→0; bar shrinks; label updates each second
+    3. Clicking correct price: "+10 points" in green, score increments
+    4. Clicking wrong price: "❌ Wrong!" in red, one heart disappears
+    5. After 1.5 s the next drink appears automatically
+    6. After 8 questions OR 0 lives: final screen with score
+    7. "Play Again" resets everything including a new question order
+
+  QUICK TEST SCRIPT FOR TEACHER:
+    • Play through all 8 questions correctly → score should be 80
+    • Let the timer run out 3 times → should lose all lives
+    • Play Again → drink order should change
+
+
+── DIFFERENTIATION ─────────────────────────────────────────
+
+  STRUGGLING STUDENTS:
+    • Let them work with a partner for gaps 2 and 3 (most complex)
+    • Suggest they skip Gap 3 (tick) initially — the game starts
+      without it (timer bar won't work but logic still runs)
+    • Focus on Gaps 1, 2, 5, 6 first — those give a working but
+      non-timed version of the game
+
+  ON-TRACK STUDENTS:
+    • Should finish all 6 gaps within 30 minutes
+    • Encourage them to test by running after each gap
+
+  ADVANCED STUDENTS (bonus challenges):
+    • Add a difficulty selector (Easy=12s, Hard=5s) by
+      changing TIMER_SECONDS before start_game()
+    • Add a "streak" counter that shows consecutive correct answers
+    • Change the question type — show a PRICE and ask for the drink
+      (this requires swapping keys and values, a great dict exercise)
+    • Add a personal best tracker using a module-level variable
+
+
+── BONUS CHALLENGES (printed on slide 18) ──────────────────
+
+  ⭐    Change TIMER_SECONDS to 5 for a harder challenge
+
+  ⭐    Change MAX_LIVES to 5 for more forgiveness
+
+  ⭐    Add a 9th drink to DRINK_DICT (remember to update
+        TOTAL_QUESTIONS = 9 too!)
+
+  ⭐⭐   After a wrong answer, colour ONLY the wrong button red
+        and the correct button green before moving on
+        (hint: use  answer_buttons[i].config(bg=...)  in a loop
+         and check if  answers[i] == correct_price)
+
+  ⭐⭐   Swap the question type: show a PRICE, ask which DRINK it
+        belongs to.  What changes?  (build_wrong_answers would
+        need to sample from ALL_DRINKS instead of ALL_PRICES)
+
+  ⭐⭐⭐  Add a "best score" display that persists across games
+         using a module-level variable  best_score = 0
+
+
+── CONNECTING TO PREVIOUS WEEKS ────────────────────────────
+
+  Point out these echoes to help students build mental models:
+
+  Week 12                           Week 13
+  ────────────────────────────────────────────────────────
+  DRINK_PAIRS list of tuples  →  DRINK_DICT dictionary
+  matched = matched + 1       →  score = score + 10
+  random.shuffle(all_values)  →  random.sample(wrong_pool, 3)
+  window.after(1000, flip_b.) →  window.after(1000, tick)  [recursive]
+  flipped list (state)        →  question_order list (state)
+  4 gaps                      →  6 gaps (more independence)
+
+
+═══════════════════════════════════════════════════════════
+  Good luck!  🧋✨
+═══════════════════════════════════════════════════════════
