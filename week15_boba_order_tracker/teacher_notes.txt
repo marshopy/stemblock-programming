@@ -1,0 +1,418 @@
+
+═══════════════════════════════════════════════════════════
+  🧋  BOBA REVIEW RALLY + ORDER TRACKER  —  TEACHER NOTES
+  Week 15  |  Level 2 Python  |  Review + Code-Together
+  ⚠️  For instructor use only
+═══════════════════════════════════════════════════════════
+
+
+── OVERVIEW ────────────────────────────────────────────────
+
+  This is the second REVIEW week.  Week 14 (Pocket Pet) reviewed
+  ALL the basics from scratch for the new students.  This week
+  zooms in on the two data structures that show up almost every
+  week, back in the boba theme and the Week 12/13 template:
+
+    📋  LISTS         Week 2 cart, Week 8 self.items, Week 11
+                      menu.txt → list, Week 12 cards
+    📖  DICTIONARIES  Week 3 player stats, Week 13 DRINK_DICT
+                      (students may also call them "maps")
+
+  plus the "glue" that holds them together: for loops, range(),
+  if / else, functions + return, global, f-strings, = vs ==,
+  random, and classes.
+
+  The class has two halves:
+
+    1.  REVIEW (slides 1-15) — short refreshers, a "Predict the
+        Output" quiz for lists and one for dictionaries, a
+        List-or-Dict quick-fire, and a trace table.
+
+    2.  CODE-TOGETHER (slides 16-25) — the whole class builds the
+        Boba Order Tracker in game.py.  Unlike Weeks 12 and 13,
+        students do NOT work alone: the teacher and class fill
+        the gaps together using I Do → We Do → You Do.
+
+  Deck:  Boba_Review_Rally_Week15.pptx  (28 slides, notes on every slide)
+
+  Estimated class time:
+     4 min  —  Welcome, demo, Level 2 journey          (slides 1-2)
+     9 min  —  Lists refresher + quiz                  (slides 3-7)
+     9 min  —  Dictionaries refresher + quiz           (slides 8-12)
+     6 min  —  List vs Dict, the glue, power combo     (slides 13-15)
+     3 min  —  Meet the app, how we'll code together   (slides 16-19)
+    25 min  —  Code-together: Gaps 1-5                 (slides 20-25)
+     4 min  —  Testing, bonus challenges, wrap-up      (slides 26-28)
+    ──────────
+    60 min  total
+
+  SHORT ON TIME?  Skip the two Toolbox slides (5 and 10) — they are
+  reference pages.  Use only 2 quiz cards per quiz.  That saves
+  about 6 minutes.
+
+
+── BEFORE CLASS ────────────────────────────────────────────
+
+  • Run solution.py once to make sure tkinter opens on the
+    classroom computer.
+  • Give students boba_student.zip (game.py + hints.txt +
+    README.txt).  Do NOT hand out solution.py or this file.
+  • Have a whiteboard ready for two things: the trace table
+    (slide 15 / Gap 3) and the tally chart (Gap 4).
+  • Open the Thonny shell — you'll use it for quick demos like
+    [].pop() and {}["Milk"].
+
+
+── REVIEW HALF: QUIZ ANSWERS ───────────────────────────────
+
+  PREDICT THE OUTPUT — LISTS  (slide 6, answers on slide 7)
+
+    Q1  cups = ["Milk", "Taro", "Mango"]
+        print(cups[0], cups[-1])
+        →  Milk Mango
+
+    Q2  cups = ["Milk", "Taro"]
+        cups.append("Matcha")
+        print(len(cups))
+        →  3
+
+    Q3  cups = ["Milk", "Taro", "Mango"]
+        last = cups.pop()
+        print(last, cups)
+        →  Mango ['Milk', 'Taro']
+        (pop removes the LAST item AND returns it — used in Gap 2)
+
+    Q4  🐞  print(cups[3])  on a 3-item list
+        →  IndexError: list index out of range
+        Fix:  cups[2]  or  cups[-1]
+
+  PREDICT THE OUTPUT — DICTIONARIES  (slide 11, answers on slide 12)
+
+    Q1  menu = {"Milk": 3.5, "Taro": 4.0}
+        print(menu["Taro"])
+        →  4.0
+
+    Q2  menu = {"Milk": 3.5}
+        menu["Mango"] = 3.75
+        print(len(menu), "Mango" in menu)
+        →  2 True
+
+    Q3  stock = {"Milk": 5}
+        stock["Milk"] = stock["Milk"] - 1
+        print(stock)
+        →  {'Milk': 4}
+
+    Q4  🐞  counts = {}
+            counts["Milk"] = counts["Milk"] + 1
+        →  KeyError: 'Milk'
+        "Milk" isn't a key yet.  This is EXACTLY the bug that Gap 4
+        solves with  if drink in counts: ... else: counts[drink] = 1
+        Don't give the fix away during the quiz — just get students
+        to explain WHY it crashes.  Pay it off in Gap 4.
+
+  QUICK-FIRE: LIST OR DICT?  (slide 13)
+    Students hold up 1 finger for LIST, 2 for DICTIONARY.
+    1. Line of customers waiting           →  LIST  (order matters)
+    2. Each drink's price                  →  DICT  (name → price)
+    3. A player's name, lives and score    →  DICT  (Week 3)
+    4. Items in a shopping cart            →  LIST  (Week 2)
+    5. The 12 Memory Match cards           →  LIST  (Week 12)
+    6. How many of EACH drink we sold      →  DICT  (Gap 4 today!)
+
+  Rule of thumb to say out loud:
+    "Do I care about ORDER?  → list.
+     Do I want to LOOK SOMETHING UP by name?  → dictionary."
+
+
+── HOW TO RUN THE CODE-TOGETHER ────────────────────────────
+
+  Project YOUR copy of game.py.  Students type in their own copy
+  at the same time.
+
+  👩‍🏫  I DO  (Gap 1)
+      You type, narrating every line out loud.  Students copy.
+      Go slowly — this sets the rhythm for the rest of the class.
+
+  🤝  WE DO  (Gaps 2, 3, 4)
+      Ask "what's the first thing we need?" and type ONLY what
+      students tell you — including their mistakes.  When it
+      breaks, run it, read the error message together (LAST line
+      first!), and fix it together.  Students learn more from a
+      shared bug than from a perfect demo.
+
+  🧑‍💻  YOU DO  (Gap 5)
+      Put slide 24 up (it shows blanks, not the answer).  Set a
+      3-minute timer.  Students work alone or in pairs.  Walk
+      around.  Then one student shares their screen and explains.
+      Reveal slide 25 afterwards.
+
+  KEY DESIGN NOTE:  Gaps 3, 4 and 5 start with a placeholder
+  return (return 0, return {}, return "???") so the app runs and
+  never crashes before a gap is done.  Every gap you fill "lights
+  up" a new part of the screen.  Remind students to DELETE the
+  placeholder line once they write their own return.
+
+
+── GAP-BY-GAP TEACHING NOTES ──────────────────────────────
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 1  —  add_order(drink)            👩‍🏫 I DO      │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT REVIEWS:
+    • list.append()  (Week 2 cart, Week 8 self.items)
+    • f-strings in a label
+    • calling another function (refresh_screen)
+
+  MOST COMMON MISTAKES:
+
+    ① orders.append("drink")  — with quotes
+        Symptom: every order in the list says  drink
+        Fix:     "Do we want the WORD drink or the VARIABLE drink?"
+
+    ② Forgetting refresh_screen()
+        Symptom: nothing appears until another button is pressed
+        Fix:     "What redraws the screen?"
+
+    ③ Leaving 'pass' in — harmless, but tidy it up.
+
+  TEACHING MOVE — global:
+    Ask stronger students: "Why doesn't add_order need global?"
+    Then scroll to new_day() at the bottom:
+        global orders
+        orders = []
+    .append() CHANGES the existing list, so no permission needed.
+    orders = []  REPLACES the variable, so it needs global.
+    Same rule as the Boba Shop:  "global when you use = on an
+    outside variable."
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 2  —  undo_last()                 🤝 WE DO      │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT REVIEWS:
+    • len()
+    • list.pop() and its return value (quiz Q3!)
+    • if / else — only one branch runs
+
+  START WITH THE CRASH:
+    In the Thonny shell type  [].pop()
+    →  IndexError: pop from empty list
+    Ask: "How can we stop that from happening?" → check len first.
+
+  MOST COMMON MISTAKES:
+
+    ① pop() outside the if
+        Symptom: Undo on an empty list crashes (IndexError)
+
+    ② refresh_screen() indented inside else
+        Symptom: after a successful undo the list doesn't update
+        Fix:     "Should the screen redraw in BOTH cases?"  → yes,
+                 so it goes after the if/else, at function level
+
+    ③ orders.pop  without  ()
+        Symptom: nothing is removed; message shows
+                 "<built-in method pop ...>"
+        Fix:     () means "do it now"
+
+  ALSO FINE:  if len(orders) == 0:  with the branches swapped.
+  Celebrate it — there's more than one right answer.
+
+  TEST:  add 2 drinks → Undo, Undo, Undo → 3rd says "Nothing to undo!"
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 3  —  get_total()                 🤝 WE DO      │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT REVIEWS:
+    • for loop over a LIST
+    • dictionary lookup  MENU[drink]
+    • the accumulator pattern  total = total + price  (Boba Shop)
+    • return
+
+  Use the trace table from slide 15 on the whiteboard.
+  Ask: "Do we loop through the orders or through the MENU?"
+       → the ORDERS.  MENU is only used to look up prices.
+
+  MOST COMMON MISTAKES:
+
+    ① Leaving  return 0  ABOVE the new code
+        Symptom: total always $0.00
+        Fix:     Python stops at the first return it hits
+
+    ② total = 0 inside the loop
+        Symptom: total is only the LAST drink's price
+
+    ③ return total inside the loop
+        Symptom: total is only the FIRST drink's price
+
+    ④ MENU(drink)  with round brackets
+        Symptom: TypeError: 'dict' object is not callable
+        Fix:     "functions use ( ), dictionaries use [ ]"
+
+    ⑤ No return at all
+        Symptom: TypeError: unsupported format string passed
+                 to NoneType.__format__
+        Fix:     "NoneType means the function gave back NOTHING."
+
+  TEST:  Milk Tea ($3.50) + Mango Tea ($3.75) = $7.25
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 4  —  count_drinks()              🤝 WE DO      │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT REVIEWS:
+    • starting an empty dictionary  {}
+    • key in dict
+    • adding a NEW key vs changing an existing one
+    • "read, change, save back"  (quiz Q3)
+
+  This is the HARDEST gap.  That's why it's a WE DO.
+
+  WHITEBOARD FIRST — TALLY CHART:
+    Ask 4-5 students for their favourite drink.  Make tally
+    marks.  Ask:
+      "A NEW drink comes in — what do I do?"   → new row, 1 mark
+      "A drink I've seen — what do I do?"      → one more mark
+    That IS the if / else.  Then link to dictionary quiz Q4:
+    "Remember the KeyError?  This check is how we avoid it."
+
+  MOST COMMON MISTAKES:
+
+    ① No else (just counts[drink] = counts[drink] + 1)
+        Symptom: KeyError on the very first order
+
+    ② counts[drink] = 1  in BOTH branches
+        Symptom: every count is stuck at 1
+
+    ③ counts = {} inside the loop
+        Symptom: the dictionary is wiped every loop; only the
+                 last drink is counted
+
+    ④ No return counts
+        Symptom: TypeError: argument of type 'NoneType' is not iterable
+
+  TEST:  Milk Tea, Milk Tea, Taro Tea →
+         Drink counts shows  Milk Tea × 2,  Taro Tea × 1
+
+  ┌──────────────────────────────────────────────────────┐
+  │  GAP 5  —  find_best_seller(counts)    🧑‍💻 YOU DO    │
+  └──────────────────────────────────────────────────────┘
+
+  WHAT IT REVIEWS:
+    • looping through a dictionary (gives the KEYS)
+    • comparing with >
+    • the "king of the hill" / find-the-biggest pattern
+    • function parameters (counts is passed in)
+
+  Blanks on slide 24:  counts · counts[drink] · counts[drink] ·
+                       drink · best_drink
+
+  WATCH FOR:
+
+    ① Updating best_drink but not best_count
+        Symptom: best seller is always the LAST drink in counts
+
+    ② if drink > best_count:
+        Symptom: TypeError: '>' not supported between instances
+                 of 'str' and 'int'
+        Fix:     "drink is the NAME.  Which thing holds the NUMBER?"
+
+    ③ return inside the loop
+        Symptom: only ever checks the first drink
+
+    ④ Forgetting to delete  return "???"
+
+  EARLY FINISHERS:  "What happens on a tie?  Try >= instead of >."
+    With >  the drink found FIRST keeps the crown.
+    With >= the drink found LAST takes it.
+
+  TEST:  🧹 New Day → Best seller shows "None yet"
+         (counts is empty, so the loop never runs)
+
+
+── AFTER ALL GAPS ARE DONE ─────────────────────────────────
+
+  EXPECTED APP BEHAVIOUR:
+    1. Clicking a drink adds it to Today's Orders (numbered)
+    2. Drinks sold, Total sales, Drink counts all update
+    3. ⭐ Best seller shows the drink with the most orders
+    4. ↩️ Undo removes the last order; on empty → "Nothing to undo!"
+    5. 🎲 Surprise adds a random drink
+    6. 🧹 New Day clears everything, best seller → "None yet"
+
+  QUICK TEST SCRIPT FOR TEACHER:
+    • Milk Tea × 2, Mango Tea × 1, Brown Sugar × 1
+        → sold 4, total $15.75, best seller Milk Tea 🧋
+    • Undo once → total $10.75
+    • Undo 4 more times → last one says "Nothing to undo!"
+    • Surprise × 10 → counts add up to 10
+
+
+── DIFFERENTIATION ─────────────────────────────────────────
+
+  STRUGGLING STUDENTS:
+    • Pair them up for Gap 5 instead of working alone
+    • Point them to the trace tables on slides 15, 23 and 24
+    • The app never crashes on unfinished gaps, so they can
+      always run it and see how far they've got
+    • hints.txt has 4-5 levels per gap — start with Hint 1
+
+  ON-TRACK STUDENTS:
+    • Should finish with the class; push them to explain one
+      gap to a neighbour in their own words
+
+  ADVANCED STUDENTS:
+    • Explain global:  why add_order doesn't need it but
+      new_day does
+    • Bonus challenges below — the ⭐⭐⭐ file-saving one is a
+      great bridge back to Week 11
+
+
+── BONUS CHALLENGES (printed on slide 27) ──────────────────
+
+  ⭐    Add a 7th drink to MENU, e.g.  "Lychee Tea 🍑": 4.75
+        A button appears by itself because the buttons are built
+        by looping through MENU.  (Make the window taller with
+        window.geometry("560x780") if it gets cut off.)
+
+  ⭐⭐   Average price:  total / len(orders)
+        Guard against dividing by zero:  if len(orders) > 0:
+
+  ⭐⭐   Best seller + count:  "⭐ Best seller: Milk Tea 🧋 (3 sold)"
+        Hint: inside refresh_screen, look up  counts[best]
+        (only when best is not "None yet")
+
+  ⭐⭐   Daily goal:  SALES_GOAL = 50 at the top.  Show
+        "🎯 $12.50 to go!"  or  "🎉 Goal reached!"
+
+  ⭐⭐⭐  Save the day (Week 11):  write every order to orders.txt
+         in add_order / undo_last / new_day, and load them back
+         with  f.read().splitlines()  when the app starts.
+
+
+── CONNECTING TO PREVIOUS WEEKS ────────────────────────────
+
+  Point out these echoes to help students build mental models:
+
+  Earlier weeks                         Today (Week 15)
+  ────────────────────────────────────────────────────────
+  Week 14  self.tricks.append(trick) →  orders.append(drink)
+  Week 14  FOODS[food]               →  MENU[drink]
+  Week 2   cart.append(item_number)  →  orders.append(drink)
+  Week 2   if item_number in cart    →  if drink in counts
+  Week 3   player['score'] + 5       →  counts[drink] + 1
+  Week 5   trace the output          →  trace tables (15, 23, 24)
+  Week 8   self.items = []           →  orders = []
+  Week 11  menu.txt → list           →  bonus: orders.txt
+  Shop     total = total + 3.50      →  total = total + price
+  Shop     f"${total:.2f}"           →  f"${total:.2f}"
+  Week 12  cards list, for loops     →  orders list, for loops
+  Week 13  DRINK_DICT["Milk Tea 🧋"] →  MENU[drink]
+  Week 13  lambda p=price:           →  lambda d=drink:  (drink buttons)
+  Week 13  list(DRINK_DICT.keys())   →  ALL_DRINKS = list(MENU.keys())
+
+
+═══════════════════════════════════════════════════════════
+  Good luck!  🧋✨
+═══════════════════════════════════════════════════════════

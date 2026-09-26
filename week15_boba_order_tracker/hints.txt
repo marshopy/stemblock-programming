@@ -1,0 +1,232 @@
+
+═══════════════════════════════════════════════════════════
+  🧋  BOBA ORDER TRACKER  —  HINTS FILE
+  Try the gap yourself first!
+  Read only the hint level you actually need.
+═══════════════════════════════════════════════════════════
+
+
+──────────────────────────────────────────────────────────
+  GAP 1  HINTS  —  add_order(drink)
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      orders is a LIST.  Which list method adds a new item
+      to the END of a list?  (We used it for the shopping cart
+      in Week 2!)
+
+  HINT 2 (medium):
+      orders.append(drink)
+      Then show a message with feedback_label.config(text=...)
+      and call refresh_screen() so the screen updates.
+
+  HINT 3 (strong):
+      orders.append(drink)
+      feedback_label.config(text=f"✅ Added {drink}!", fg="#28A745")
+      refresh_screen()
+
+  HINT 4 (why no global?):
+      We never write  orders = ...  in this function.
+      .append() changes the list that already exists, so Python
+      doesn't need permission.  You only need  global  when you
+      use  =  to REPLACE a variable (look at new_day()).
+
+
+──────────────────────────────────────────────────────────
+  GAP 2  HINTS  —  undo_last()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Two things can happen:
+        1. There ARE orders → remove the last one
+        2. There are NO orders → show "Nothing to undo!"
+      Two choices means... if / else!
+
+  HINT 2 (medium — checking the list):
+      len(orders) tells you how many orders there are.
+          if len(orders) > 0:
+              # there is something to undo
+          else:
+              # the list is empty
+
+  HINT 3 (medium — removing the last item):
+      .pop() removes the LAST item and gives it back:
+          removed = orders.pop()
+      Now you can put  removed  inside an f-string message.
+
+  HINT 4 (strong — all together):
+      if len(orders) > 0:
+          removed = orders.pop()
+          feedback_label.config(text=f"↩️ Removed {removed}", fg="#D63384")
+      else:
+          feedback_label.config(text="Nothing to undo!", fg="#DC3545")
+      refresh_screen()
+
+      ⚠️  refresh_screen() is NOT indented under else —
+          it should run no matter which branch happened.
+
+
+──────────────────────────────────────────────────────────
+  GAP 3  HINTS  —  get_total()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      You need a running total that starts at 0.  Then visit
+      every drink in orders and add that drink's price.
+      Where do the prices live?  In the MENU dictionary!
+
+  HINT 2 (medium — the loop):
+      total = 0
+      for drink in orders:
+          # add this drink's price to total
+
+  HINT 3 (medium — the dictionary lookup):
+      MENU["Milk Tea 🧋"]  gives  3.5
+      So inside the loop, MENU[drink]  gives the price of
+      whatever drink we're on right now.
+
+  HINT 4 (strong — all together):
+      total = 0
+      for drink in orders:
+          price = MENU[drink]
+          total = total + price
+      return total
+
+      Then DELETE the old placeholder line  return 0
+
+  HINT 5 (trace it!):
+      orders = ["Milk Tea 🧋", "Mango Tea 🥭"]
+        start          →  total = 0
+        Milk Tea 3.50  →  total = 0    + 3.50 = 3.50
+        Mango Tea 3.75 →  total = 3.50 + 3.75 = 7.25
+      return 7.25
+
+
+──────────────────────────────────────────────────────────
+  GAP 4  HINTS  —  count_drinks()
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Think of tally marks on a whiteboard.  For every drink:
+        • If it already has a row → add one more mark
+        • If it's brand new → make a new row with 1 mark
+      The whiteboard is a dictionary:  drink → number of marks
+
+  HINT 2 (medium — the start):
+      counts = {}
+      for drink in orders:
+          # is this drink already a key in counts?
+
+  HINT 3 (medium — the "in" check):
+      drink in counts   →  True if drink is already a key
+          if drink in counts:
+              counts[drink] = counts[drink] + 1
+          else:
+              counts[drink] = 1
+
+  HINT 4 (strong — all together):
+      counts = {}
+      for drink in orders:
+          if drink in counts:
+              counts[drink] = counts[drink] + 1
+          else:
+              counts[drink] = 1
+      return counts
+
+      Then DELETE the old placeholder line  return {}
+
+  HINT 5 (trace it!):
+      orders = ["Milk", "Taro", "Milk"]
+        start        →  counts = {}
+        "Milk" (new) →  counts = {"Milk": 1}
+        "Taro" (new) →  counts = {"Milk": 1, "Taro": 1}
+        "Milk" (seen)→  counts = {"Milk": 2, "Taro": 1}
+
+
+──────────────────────────────────────────────────────────
+  GAP 5  HINTS  —  find_best_seller(counts)
+──────────────────────────────────────────────────────────
+
+  HINT 1 (gentle):
+      Imagine checking the tally board one row at a time
+      and remembering the biggest number you've seen so far.
+      You need TWO things to remember: the drink and its count.
+
+  HINT 2 (medium — the start):
+      best_drink = "None yet"
+      best_count = 0
+      for drink in counts:
+          # compare counts[drink] with best_count
+
+  HINT 3 (medium — the comparison):
+      if counts[drink] > best_count:
+          # this drink is the new king of the hill!
+          # update BOTH best_count and best_drink
+
+  HINT 4 (strong — all together):
+      best_drink = "None yet"
+      best_count = 0
+      for drink in counts:
+          if counts[drink] > best_count:
+              best_count = counts[drink]
+              best_drink = drink
+      return best_drink
+
+      Then DELETE the old placeholder line  return "???"
+
+  HINT 5 (what about a tie?):
+      With  >  a tie does NOT replace the king, so the drink
+      that was found FIRST stays on top.  Try >= and see what
+      changes!
+
+
+──────────────────────────────────────────────────────────
+  COMMON ERRORS & FIXES
+──────────────────────────────────────────────────────────
+
+  Error: I click a drink button and nothing happens
+      Fix: Check Gap 1 — did you delete 'pass' and write
+           orders.append(drink)?  Did you call refresh_screen()?
+
+  Error: "IndexError: pop from empty list"
+      Fix: Check Gap 2 — the  .pop()  must be INSIDE
+           if len(orders) > 0:   so it never runs on an empty list.
+
+  Error: Total always says $0.00
+      Fix: Check Gap 3 — did you delete the placeholder line
+           return 0 ?  If it's still at the top, Python returns 0
+           before your code even runs!
+
+  Error: "TypeError: unsupported format string passed to NoneType.__format__"
+      Fix: Gap 3 forgot to  return total .  A function with no
+           return gives back None, and None can't be shown with :.2f
+
+  Error: Total only shows the price of ONE drink
+      Fix: Check your indentation in Gap 3:
+           • total = 0  must be BEFORE the loop (not inside it)
+           • return total  must be AFTER the loop (not inside it)
+
+  Error: "TypeError: 'dict' object is not callable"
+      Fix: You wrote  MENU(drink)  with round brackets.
+           Dictionaries use SQUARE brackets:  MENU[drink]
+
+  Error: "KeyError: 'Milk Tea 🧋'"
+      Fix: Check Gap 4 — you tried  counts[drink] + 1  for a drink
+           that isn't in the dictionary yet.  You need the
+           if drink in counts: ... else: counts[drink] = 1  check.
+
+  Error: "TypeError: argument of type 'NoneType' is not iterable"
+      Fix: Gap 4 forgot to  return counts .
+
+  Error: Every drink count is stuck at 1
+      Fix: Check Gap 4 — in the  if  branch you need
+           counts[drink] = counts[drink] + 1   (not  = 1)
+
+  Error: Best seller is always the LAST drink, not the biggest
+      Fix: Check Gap 5 — you must update  best_count  too,
+           not just  best_drink .
+
+  Error: "TypeError: '>' not supported between instances of 'str' and 'int'"
+      Fix: Gap 5 compares the KEY (a drink name) instead of its
+           count.  Use  counts[drink] > best_count ,
+           not  drink > best_count .

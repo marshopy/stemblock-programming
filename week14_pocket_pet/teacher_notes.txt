@@ -1,0 +1,194 @@
+
+═══════════════════════════════════════════════════════════
+  🐾  WEEK 14 — THE BIG REVIEW  —  TEACHER NOTES
+  Level 2 Python  |  Pocket Pet
+  ⚠️  For instructor use only
+═══════════════════════════════════════════════════════════
+
+
+── OVERVIEW ────────────────────────────────────────────────
+
+  We have new students, so this class reviews EVERY Level 2
+  concept from the ground up, in the same style as Weeks 1-7
+  (Vapor Trail slides, console programs, "what's the print
+  value?" challenges like the Week 5 review).
+
+  Deck:  week14_Level2_Review.pptx  (35 slides, speaker notes
+         on every slide, answer key on the last slide)
+
+  No tkinter this week: Pocket Pet is a text game in the
+  Thonny Shell, so new students only need print() and input().
+
+  Week 15 (Boba Order Tracker) builds on this with the
+  Week 12/13 tkinter template, focused on lists and dictionaries.
+
+
+── TIMING (60 min) ─────────────────────────────────────────
+
+     2 min  —  Welcome + plan                        (slides 1-2)
+    23 min  —  Part 1: 14 concept challenges          (slides 3-17)
+     3 min  —  Demo the finished game + the plan      (slides 18-20)
+    27 min  —  Part 2: build Pocket Pet together      (slides 21-31)
+     5 min  —  Run it, bonus ideas, wrap-up           (slides 32-34)
+    ──────────
+    60 min  total
+
+  SHORT ON TIME?  Skip "Scope & Global" (10), "Random" (14)
+  and "Bonus: Inheritance" (16).  That saves about 5 minutes.
+  Pocket Pet doesn't need global or inheritance.
+
+
+── HOW TO RUN PART 1 ───────────────────────────────────────
+
+  Every concept slide has EXAMPLES on the left and a CHALLENGE
+  on the right.
+
+    1. Read the example together (30 sec).  Ask a returning
+       student to explain it in their own words.
+    2. Give 20-30 seconds for the challenge.  Students write
+       their answer or hold it in their head.
+    3. Take 2-3 answers before revealing.
+    4. Reveal: run review_challenges.py in Thonny, or read the
+       answer from the notes / Answer Key slide.
+
+  Pair new students with returning students for this part.
+
+
+── PART 1 ANSWERS ──────────────────────────────────────────
+
+   4  Variables & Types      16
+   5  Input & f-strings      53  then  8
+                             ("5" + "3" glues text; int() makes numbers)
+   6  If / Elif / Else       Park
+   7  For loops & range()    10       (1 + 2 + 3 + 4)
+   8  While loops            32       (1 → 2 → 4 → 8 → 16 → 32)
+   9  Functions & return     26       (15 + 11)
+  10  Scope & global         1
+  11  Lists                  fish 3
+  12  Dictionaries           5 3
+  13  Tracing code           ['Ana', 'Cy']  then  2
+  14  Random                 1, 2 or 3   (randint includes BOTH ends)
+  15  Classes & objects      2
+  16  Inheritance            Tom says meow  /  Rex makes a sound
+  17  Debugging
+        Bug 1  SyntaxError       — use  ==  to compare
+        Bug 2  TypeError         — text + number → f"Score: {score}"
+        Bug 3  IndentationError  — indent the body 4 spaces
+        Bug 4  IndexError        — only [0] and [1] exist
+
+  Every answer above was checked by running the code.
+
+
+── HOW TO RUN PART 2 (CODE-ALONG) ──────────────────────────
+
+  Students open  pocket_pet_starter.py  — it only has the step
+  headings, so everyone types the code themselves.
+
+  For each step:  explain the idea (30 sec) → type it together
+  on the projector → everyone presses F5.  No red error = success.
+
+  Steps 3-6 have a "TEST IT" box: two or three lines to add at
+  the very bottom of the file to try the new method.  Delete
+  those test lines at Step 8.
+
+  Step 9 is split across two slides (skeleton first, then the
+  if / elif / else) so the code stays big enough to read.
+
+
+── STEP-BY-STEP: COMMON MISTAKES ──────────────────────────
+
+  STEP 1  The data
+    • Missing comma between dictionary items → SyntaxError
+    • Forgetting the closing ] on TRICKS (it's split over 2 lines)
+
+  STEP 2  The Pet class
+    • _init_ with ONE underscore each side — it needs TWO
+    • Forgetting  self  as the first parameter
+    • hunger = 5  instead of  self.hunger = 5
+      (the pet "forgets" it straight away)
+
+  STEP 3  Show status   (first chance to TEST)
+    • def show_status is not indented under the class
+      → the test says  'Pet' object has no attribute 'show_status'
+    • Forgetting the  f  before the quotes → shows {self.name} literally
+
+  STEP 4  Feed
+    • FOODS(food) with round brackets → 'dict' object is not callable
+    • No  if food in FOODS  check → KeyError: 'rocks'
+
+  STEP 5  Play & sleep
+    • Test: pet.play() three times → 5 → 3 → 1, the third says
+      "too tired".  Ask why  >= 2  and not  > 2.
+
+  STEP 6  Learn a trick
+    • self.tricks.append(trick) outside the else → duplicates
+    • Some calls say "Already knows" — that's random.choice
+      picking the same trick twice, not a bug!
+
+  STEP 7  End of the day
+    • is_ok() must RETURN the comparison, not print it
+
+  STEP 8  Menu & making our pet
+    • These lines are NOT indented (outside the class)
+    • Delete the test lines from Steps 3-6 first
+
+  STEP 9  The game loop
+    • choice == 1 (a number) — input() gives TEXT, use "1"
+    • pet.end_of_day() indented inside the while → the day ends
+      after every action.  It lines up with  while.
+    • The if / elif / else must be indented 8 spaces (inside while)
+    • The typo trick: else adds 1, then the line after subtracts 1
+      → a wrong key doesn't use up a turn
+
+  STEP 10  Game over
+    • These lines are at the left edge, after the for loop
+    • day still holds the last day we reached (after the loop)
+
+
+── TESTING THE FINISHED GAME ───────────────────────────────
+
+  • Name: Mochi → play a normal game → should reach Day 5
+  • Type 9 at the menu → "Please type 1, 2, 3 or 4", same day
+  • Feed "rocks" → pet says no
+  • Only choose 4 (sleep) every time → hunger rises, happiness
+    drops → "Oh no! ... is not okay" by the last day
+  • A good run (feed, play, tricks, sleep when tired) → ⭐⭐⭐
+
+
+── DIFFERENTIATION ─────────────────────────────────────────
+
+  NEW STUDENTS:
+    • Sit them next to a returning student
+    • In Part 2 they can open pocket_pet.py side by side and
+      compare line by line if they fall behind
+    • Focus on getting Steps 1-4 + 8-9 working; Steps 5-7 can
+      be copied from pocket_pet.py if time is short
+
+  RETURNING STUDENTS:
+    • Ask them to explain each Part 1 example to the class
+    • Bonus challenges (slide 33) once the game works
+
+  BONUS IDEAS (slide 33):
+    ⭐    New food / new trick — only Step 1 changes
+    ⭐⭐   Bath action with a cleanliness stat — new attribute,
+          new method, new menu choice
+    ⭐⭐   Random morning surprise with random.randint
+    ⭐⭐⭐  Two pets in a list — loop over pets each day
+    ⭐⭐⭐  class Dog(Pet) overriding play()  (Week 7 inheritance)
+
+
+── HOW IT CONNECTS TO EARLIER WEEKS ───────────────────────
+
+  Week 1   random, functions, if / else   →  learn_trick, keep_in_range
+  Week 2   lists, while True + break      →  TRICKS, self.tricks, break
+  Week 3   dictionaries                   →  FOODS[food]
+  Week 4-7 classes, self, methods         →  class Pet
+  Week 5   tracing, range(), debugging    →  the Part 1 challenges
+  Week 6   classroom simulator (Student)  →  same shape as Pet
+  Week 8   Boba Store: self.items = []    →  self.tricks = []
+  Shop     f"${total:.2f}", global        →  f-strings, Scope slide
+
+
+═══════════════════════════════════════════════════════════
+  Good luck!  🐾
+═══════════════════════════════════════════════════════════
