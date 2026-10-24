@@ -1,27 +1,30 @@
 ═══════════════════════════════════════════════════════════
-  🧙  CHARACTER CREATOR  —  README
-  Week 16  |  Level 2 Python  |  Data Types
+  🛡️  CRASH-PROOF CHARACTER CREATOR  —  README
+  Week 16  |  Level 2 Python  |  Advanced Types,
+                                 Conversion & Validation
 ═══════════════════════════════════════════════════════════
 
 
 ── WHAT IS THIS? ──────────────────────────────────────────
 
-  Week 16 is all about DATA TYPES — the different kinds of
-  values Python works with.
+  Students already know int, float, str and bool from Level 1.
+  Week 16 levels up:
 
-    Part 1  —  Meet the types: one "what's the print value?"
-               challenge for each type, then Name That Type
+    📦  Advanced types   tuples · sets · nested data
+    🔄  Conversion       switching between ANY types
+                         (and the bool("False") trap!)
+    🛡️  Validation       isinstance() · .isdigit() · try / except
+                         · the validation loop
+
+    Part 1  —  One challenge per idea, then Name That Type
                and Spot the Bug
-    Part 2  —  We build the Character Creator together
+    Part 2  —  We build the Crash-Proof Character Creator together
 
-  Character Creator is a text program that runs in the Thonny
-  Shell.  You make a game hero by answering questions, and every
-  answer is saved with a different data type:
-
-    str · int · float · bool · list · tuple · None · dict
-
-  After each answer it tells you which type it used.  At the
-  end you get a Hero Card — and your hero levels up!
+  The Crash-Proof Character Creator is a text program that runs
+  in the Thonny Shell.  You make a game hero, and the program
+  NEVER crashes — every answer is validated, converted to the
+  right type, stored in an advanced type, and type-checked.
+  At the end it saves the hero as text and loads it back.
 
 
 ── FILES IN THIS FOLDER ───────────────────────────────────
@@ -31,8 +34,8 @@
                                   We type the code together from the slides.
 
   character_creator.py         ← COMPLETE VERSION
-                                  The finished program.  Run it at the
-                                  start of Part 2 to show the goal.
+                                  Run it at the start of Part 2 and let
+                                  the class try to crash it.
 
   review_challenges.py         ← TEACHER FILE
                                   Every Part 1 challenge — press F5 to
@@ -51,45 +54,47 @@
   2. Click  File  →  Open...
   3. Select  character_creator_starter.py
   4. Type the code for each step from the slides.
-  5. Press  F5  (or the green Run button ▶) after every step.
-  6. Answer the questions in the Shell at the bottom and
-     check that it says  ✔ saved as ...  with the type you expected.
+  5. Steps 1-4 make "validator" functions.  After pressing F5,
+     test them by typing a call in the Shell, for example:
+         >>> ask_int("Level? ", 1, 10)
+  6. Steps 5-10 run like a normal program — answer in the Shell.
 
 
 ── THE 10 STEPS ───────────────────────────────────────────
 
-  Step 1   The name           str      input() · .strip() · .title()
-  Step 2   The level          int      int() · while · .isdigit()
-  Step 3   The speed          float    float()
-  Step 4   Magic?             bool     == makes True / False
-  Step 5   The backpack       list     for loop · append
-  Step 6   Home on the map    tuple    random.randint
-  Step 7   A pet?             None     None until we get a name
-  Step 8   Stats              dict     values of different types
-  Step 9   The Hero Card      all!     loop through a dict
-  Step 10  Level up!          all!     math · str() · len()
+  Step 1   Ask for a whole number   VALIDATE   try / except · range check
+  Step 2   Ask for a decimal        VALIDATE   copy & change: float()
+  Step 3   Ask yes or no            VALIDATE   a set of answers → bool
+  Step 4   Ask for a name           VALIDATE   .strip() · .isalpha() · len()
+  Step 5   Ask the questions        USE        call our validators
+  Step 6   Skills                   CONVERT    split() → list → set
+  Step 7   Home on the map          STORE      tuple · unpacking
+  Step 8   The hero                 STORE      nested dict
+  Step 9   Type check               CHECK      isinstance()
+  Step 10  Save & load              CONVERT    to text and back again
 
 
-── TESTING CHECKLIST ──────────────────────────────────────
+── TRY TO BREAK IT ────────────────────────────────────────
 
-  ✅ Type five for the level → it asks again
-  ✅ Type 2 for the speed → saved as float (2.0)
-  ✅ Type Y (capital) for magic → still True
-  ✅ Just press Enter for the pet → saved as NoneType
-  ✅ Hero Card: every line shows its type
-  ✅ Type fast for the speed → ValueError (why?)
+  ✅ Words, huge numbers, nothing at all → no crash
+  ✅ Name R2D2 → "Letters only"
+  ✅ Speed 2 → saved as 2.0 (a float)
+  ✅ Magic: maybe → asks again;  YES → True
+  ✅ Skills: fly, Fly, swim → 2 unique skills
+  ✅ Change  speed = 2  in Step 5 → the type check says
+     "✖ speed: NOT float"
 
 
 ── BONUS CHALLENGES ────────────────────────────────────────
 
-  ⭐    Ask for a lucky number (int) and a favourite colour (str)
-  ⭐    Show how many letters are in the hero's name with len()
-  ⭐⭐   Make the speed safe so typing "fast" can't crash it
-  ⭐⭐   A random title like "the Brave" with random.choice
-  ⭐⭐⭐  Turn the hero into a class Hero with a level_up() method
-  ⭐⭐⭐  Save the Hero Card to hero.txt (you'll need str()!)
+  ⭐    Accept "yeah" and "nope" in the YES and NO sets
+  ⭐    Ask for a lucky number from 1 to 99 with ask_int
+  ⭐⭐   Merge ask_int and ask_float into one ask_number()
+  ⭐⭐   Only allow skills from a set of ALLOWED_SKILLS
+  ⭐⭐⭐  A party: a list of 3 hero dictionaries
+  ⭐⭐⭐  Save the hero to hero.txt and load it next time
 
 
 ═══════════════════════════════════════════════════════════
-  Have fun!  🧙
+  Have fun — and try to break it!  🛡️
 ═══════════════════════════════════════════════════════════

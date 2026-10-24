@@ -1,166 +1,180 @@
 
 ═══════════════════════════════════════════════════════════
-  🧙  WEEK 16 — DATA TYPES  —  TEACHER NOTES
-  Level 2 Python  |  Character Creator
+  🛡️  WEEK 16 — ADVANCED TYPES, CONVERSION & VALIDATION
+  TEACHER NOTES  |  Level 2 Python  |  Crash-Proof Character Creator
   ⚠️  For instructor use only
 ═══════════════════════════════════════════════════════════
 
 
 ── OVERVIEW ────────────────────────────────────────────────
 
-  This class gives proper names to the kinds of values students
-  have used all year, shows what each one can do, and practises
-  switching between them.  Same style as Weeks 1-7 and Week 14:
-  Vapor Trail slides, "what's the print value?" challenges, and
-  a console program we type together.
+  Students learned the basic types (int, float, str, bool) in
+  Level 1, so this class goes further:
 
-  Deck:  week16-data-types.pptx  (31 slides, speaker notes on
+    📦  ADVANCED TYPES   tuples (packing & unpacking), sets,
+                         nested data (list of dicts, dict of lists)
+    🔄  CONVERSION       numbers ↔ text, collections (split, join,
+                         set/list/tuple), truthy & falsy
+    🛡️  VALIDATION       isinstance(), string checks, try / except
+                         (NEW), the validation loop
+
+  Same style as Weeks 1-7 and Week 14: Vapor Trail slides,
+  "what's the print value?" challenges, and a console program
+  we type together.
+
+  Deck:  week16-data-types.pptx  (33 slides, speaker notes on
          every slide, answer key on the last slide)
-
-  Types covered:  int · float · str · bool · None ·
-                  list · tuple · dict  +  converting between them
 
 
 ── TIMING (60 min) ─────────────────────────────────────────
 
-     3 min  —  Welcome + plan                         (slides 1-2)
-    25 min  —  Part 1: meet the types                 (slides 3-14)
-     3 min  —  Demo the finished program + the plan   (slides 15-17)
-    25 min  —  Part 2: build Character Creator        (slides 18-27)
-     4 min  —  Run it, bonus ideas, wrap-up           (slides 28-30)
+     2 min  —  Welcome + plan                         (slides 1-2)
+    25 min  —  Part 1: level up your types            (slides 3-16)
+     3 min  —  Demo the finished program + the plan   (slides 17-19)
+    26 min  —  Part 2: build the program              (slides 20-29)
+     4 min  —  Try to break it, bonus ideas, wrap-up  (slides 30-32)
     ──────────
     60 min  total
 
-  SHORT ON TIME?  Skip "Nothing at All: None" (10) — Step 7 of the
-  program teaches None anyway — and only do 5 of the 10 Name That
-  Type cards.
-
-
-── HOW TO RUN PART 1 ───────────────────────────────────────
-
-  Slide 4 (The Type Family) is the map for the day — leave a
-  printout or keep coming back to it.
-
-  Every concept slide has EXAMPLES on the left and a CHALLENGE
-  on the right:
-    1. Read the example together (30 sec)
-    2. 20-30 seconds for the challenge
-    3. Take 2-3 answers before revealing
-    4. Reveal: run review_challenges.py, or read the notes /
-       Answer Key slide
+  SHORT ON TIME?  Skip "Converting Collections" (9) and do only
+  5 of the 10 Name That Type cards.  Don't skip try / except (13)
+  or The Validation Loop (14) — Part 2 depends on them.
 
 
 ── PART 1 ANSWERS ──────────────────────────────────────────
 
-   5  What is a data type?   <class 'str'>  then  <class 'int'>
-   6  int                    3  then  2     (17 cookies, 5 kids)
-   7  float                  3 4  then  <class 'float'>
-                             (int() chops, round() rounds, / gives float)
-   8  str                    m 6  then  SamSam
-   9  bool                   True <class 'bool'>  then  False
-  10  None                   None   (add() has no return)
-  11  Lists, tuples, dicts   TypeError: 'tuple' object does not
-                             support item assignment
-  12  Converting types       44  then  8    ("4" * 2 repeats the text)
+   5  Tuples: pack & unpack      6 Ava  /  3 tuple
+   6  Sets: no duplicates        5 3  /  False
+   7  Nested data                2 cheese  /  int
+   8  Converting numbers & text  10.5  /  88 2.5!
+   9  Converting collections     4 3  /  GREEN
+  10  Truthy & falsy             True  /  True False  /  True
+                                 (bool("False") is True!)
+  11  isinstance()               2
+  12  Checking text              True / False / True / False
+  13  try / except               24 / oops / oops / 14
+  14  The validation loop        not a number / out of range / ok 12
 
-  13  Name That Type
-        42 → int        "42" → str       4.2 → float
-        True → bool     "True" → str     [4, 2] → list
-        (4, 2) → tuple  {"x": 4} → dict  None → NoneType
-        4 > 2 → bool
+  15  Name That Type
+        (3,) → tuple     (3) → int        {} → dict
+        set() → set      {1, 2} → set     "" → str
+        [[]] → list      "3" * 2 → str    3 > 2.0 → bool
+        int("7") → int
 
-  14  Will this code work?
-        Bug 1  TypeError   — "I am " + age  →  str(age) or f-string
-        Bug 2  ValueError  — int("3.5")     →  float("3.5")
-        Bug 3  TypeError   — len(2024)      →  len(str(2024))
-        Bug 4  TypeError   — guess > 5      →  int(guess) > 5
+  16  Will this code work?
+        Bug 1  ValueError  — int("3.5")       →  int(float("3.5"))
+        Bug 2  TypeError   — tags[0] on a set →  "fast" in tags
+        Bug 3  ValueError  — x, y = (4, 5, 6) →  x, y, z = ...
+        Bug 4  NO ERROR, but prints True!  bool("no") is True
+                                           →  answer in YES
 
   Every answer above was checked by running the code.
 
 
+── KEY TEACHING POINTS ─────────────────────────────────────
+
+  • Truthy & falsy is the big "aha": bool("False"), bool("0")
+    and bool("no") are all True.  Bug 4 and Step 10 both come
+    back to this — never use bool() on user text.
+
+  • try / except is NEW.  Read it as: "Try this.  If you get a
+    ValueError, do this instead."  It beats .isdigit() because it
+    handles negatives and decimals (with float()).
+
+  • The validation loop (slide 14) is the pattern for all of
+    Part 2:  while True  +  try / except  +  range check  +  return
+
+  • {} is an empty DICT.  An empty set is set().  This trips
+    students up in Step 6.
+
+
 ── HOW TO RUN PART 2 (CODE-ALONG) ──────────────────────────
 
-  Students open  character_creator_starter.py  — it only has the
-  step headings.  Every step is short (3-8 lines) and ends with
-  show_type(...), so after each F5 students see  ✔ saved as ...
-  and can check the type is what they expected.
+  Students open  character_creator_starter.py.
 
-  Each step slide has a ▶ RUN IT box telling students what to
-  type and what they should see.
+  Steps 1-4 only DEFINE functions, so pressing F5 shows nothing.
+  Test each validator in the Thonny Shell after F5, e.g.
+      >>> ask_int("Level? ", 1, 10)
+  then type bad answers on purpose.  Each step slide's ▶ RUN IT
+  box says exactly what to try.
 
-  Note: the program runs from the top every time, so by Step 8
-  students answer 7 questions per run.  That's normal — it's
-  good typing practice and they can answer quickly.
+  From Step 5 the program runs top to bottom.  Make it a game:
+  a point to anyone who can crash it (nobody should!).
 
 
 ── STEP-BY-STEP: COMMON MISTAKES ──────────────────────────
 
-  STEP 1  Name (str)
-    • .strip / .title without ( ) → nothing happens
-    • type(value).__name__ — two underscores on each side
+  STEP 1  ask_int
+    • try / except not lined up with each other → SyntaxError
+    • The "Pick from…" print indented inside the if → never shows
+    • No while True → asks once, then returns None on a bad answer
 
-  STEP 2  Level (int)
-    • while level_text.isdigit():  (forgot  not ) → it complains
-      about GOOD answers, then crashes with ValueError on a bad one
-    • Typing a negative or decimal level (-2, 3.5) asks again —
-      .isdigit() only accepts the digits 0-9
+  STEP 2  ask_float
+    • Forgot to change int() to float() → "1.5" is rejected
 
-  STEP 3  Speed (float)
-    • Typing a word crashes with ValueError — that's expected!
-      (bonus challenge: make it safe)
+  STEP 3  ask_yes_no
+    • Using bool(answer) instead of the sets → "no" gives True
+    • Forgot .lower() → "Y" is rejected
 
-  STEP 4  Magic (bool)
-    • = "y" instead of == "y" → SyntaxError
-    • Typing "yes" gives False because "yes" isn't "y"
+  STEP 4  ask_name
+    • name.isalpha() without removing spaces → "Ava Storm" rejected
 
-  STEP 5  Backpack (list)
-    • backpack = [] inside the loop → only 1 item survives
+  STEP 5  Ask the questions
+    • Calling ask_int("Level? ") without low and high → TypeError:
+      missing 2 required positional arguments
 
-  STEP 6  Home (tuple)
-    • Square brackets [x, y] make a list, not a tuple — check
-      the ✔ saved as line says tuple
+  STEP 6  Skills
+    • skills = {} → that's a dict!  skills.add → AttributeError.
+      It must be set()
+    • split(",") gives " swim" with a space — that's why we .strip()
 
-  STEP 7  Pet (None)
-    • pet = "None" in quotes → saved as str, not NoneType!
-    • Test both ways: a name (str) and just Enter (NoneType)
+  STEP 7  Home
+    • x, y, z = home → ValueError: not enough values to unpack
 
-  STEP 8  Stats (dict)
-    • Missing comma between the lines inside { }
+  STEP 8  The hero
+    • Missing commas between lines inside { }
+    • hero["stats"]["hp"] inside an f-string needs single quotes:
+      {hero['stats']['hp']}
 
-  STEP 9  Hero Card
-    • "name": name  — the key needs quotes, the value doesn't
-    • Ask students to predict each type before running
+  STEP 9  Type check
+    • EXPECTED values in quotes ("str") → isinstance error.
+      The values are the TYPES themselves: str, int, float…
+    • Live demo: change Step 5 to  speed = 2  → "✖ speed: NOT float"
 
-  STEP 10  Level up
-    • "Level: " + level → TypeError (Bug 1 again!) — use str(level)
+  STEP 10  Save & load
+    • bool(parts[3]) instead of  parts[3] == "True"  → a hero with
+      no magic loads back as True.  Truthy & falsy again!
 
 
 ── DIFFERENTIATION ─────────────────────────────────────────
 
-  NEWER STUDENTS:
-    • Keep the Type Family slide visible during Part 2
-    • They can open character_creator.py side by side and compare
+  STUDENTS WHO NEED MORE TIME:
+    • They can copy Steps 2-4 from character_creator.py — the
+      key learning is in Step 1 (validation loop) and Step 9
+    • Pair them up for the "try to break it" game
 
-  RETURNING STUDENTS:
-    • Ask them to explain each example to the class
-    • Bonus challenges (slide 29), e.g. a safe speed:
-          speed_text = input("Speed (like 1.5)? ")
-          while not speed_text.replace(".", "", 1).isdigit():
-              speed_text = input("Numbers only! Speed? ")
-          speed = float(speed_text)
+  STUDENTS READY FOR MORE:
+    • Bonus challenges (slide 31), e.g. merge the validators:
+          def ask_number(prompt, kind, low, high):
+              while True:
+                  try:
+                      number = kind(input(prompt))
+                      ...
+      and call  ask_number("Level? ", int, 1, 10)
+    • Ask: why is isinstance(True, int) also True?
+      (bool is a special kind of int in Python)
 
 
 ── HOW IT CONNECTS TO EARLIER WEEKS ───────────────────────
 
-  Week 2   lists (cart)                →  backpack
-  Week 3   dictionaries                →  stats, hero
-  Week 5   variable types review       →  today goes deeper
-  Week 11  read a file → str           →  bonus: save hero.txt
-  Week 12  DRINK_PAIRS: list of tuples →  home = (x, y)
-  Week 13/15  NoneType errors          →  slide 10 explains why
-  Boba Shop  f"${total:.2f}"           →  float formatting
+  Level 1   int, float, str, bool        →  slide 4 recap
+  Week 2    while True + break            →  while True + return
+  Week 3    dictionaries                  →  nested dicts, EXPECTED
+  Week 11   save / load menu.txt          →  Step 10 save & load
+  Week 12   DRINK_PAIRS (tuples)          →  tuples, unpacking
+  Week 14   int(input()) crashes on words →  today we fix that!
 
 
 ═══════════════════════════════════════════════════════════
-  Good luck!  🧙
+  Good luck!  🛡️
 ═══════════════════════════════════════════════════════════

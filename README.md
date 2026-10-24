@@ -48,10 +48,11 @@ total sales, drink counts and the best seller. The teacher and class fill in
 - `README.txt` — How to open in Thonny + bonus challenges
 - `teacher_notes.txt` — Quiz answers, how to run the code-together, per-gap notes
 
-## Week 16 — Character Creator (Data Types)
-A data-types class: one challenge for each type (int, float, str, bool, None,
-list, tuple, dict) plus converting between them, then a console game the class
-builds together where every answer is saved as a different type and shown on a Hero Card.
+## Week 16 — Crash-Proof Character Creator (Advanced Types, Conversion & Validation)
+Builds on the Level 1 basics: tuples, sets and nested data; converting between types
+(including the `bool("False")` trap); and validating input with `isinstance()`, string checks,
+`try` / `except` and the validation loop. The class then builds a Character Creator that
+never crashes, type-checks the finished hero, and saves and loads it as text.
 
 **Files:**
 - `character_creator_starter.py` — Student file (step headings only; type along with the slides)
