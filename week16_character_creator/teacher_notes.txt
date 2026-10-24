@@ -1,0 +1,166 @@
+
+═══════════════════════════════════════════════════════════
+  🧙  WEEK 16 — DATA TYPES  —  TEACHER NOTES
+  Level 2 Python  |  Character Creator
+  ⚠️  For instructor use only
+═══════════════════════════════════════════════════════════
+
+
+── OVERVIEW ────────────────────────────────────────────────
+
+  This class gives proper names to the kinds of values students
+  have used all year, shows what each one can do, and practises
+  switching between them.  Same style as Weeks 1-7 and Week 14:
+  Vapor Trail slides, "what's the print value?" challenges, and
+  a console program we type together.
+
+  Deck:  week16-data-types.pptx  (31 slides, speaker notes on
+         every slide, answer key on the last slide)
+
+  Types covered:  int · float · str · bool · None ·
+                  list · tuple · dict  +  converting between them
+
+
+── TIMING (60 min) ─────────────────────────────────────────
+
+     3 min  —  Welcome + plan                         (slides 1-2)
+    25 min  —  Part 1: meet the types                 (slides 3-14)
+     3 min  —  Demo the finished program + the plan   (slides 15-17)
+    25 min  —  Part 2: build Character Creator        (slides 18-27)
+     4 min  —  Run it, bonus ideas, wrap-up           (slides 28-30)
+    ──────────
+    60 min  total
+
+  SHORT ON TIME?  Skip "Nothing at All: None" (10) — Step 7 of the
+  program teaches None anyway — and only do 5 of the 10 Name That
+  Type cards.
+
+
+── HOW TO RUN PART 1 ───────────────────────────────────────
+
+  Slide 4 (The Type Family) is the map for the day — leave a
+  printout or keep coming back to it.
+
+  Every concept slide has EXAMPLES on the left and a CHALLENGE
+  on the right:
+    1. Read the example together (30 sec)
+    2. 20-30 seconds for the challenge
+    3. Take 2-3 answers before revealing
+    4. Reveal: run review_challenges.py, or read the notes /
+       Answer Key slide
+
+
+── PART 1 ANSWERS ──────────────────────────────────────────
+
+   5  What is a data type?   <class 'str'>  then  <class 'int'>
+   6  int                    3  then  2     (17 cookies, 5 kids)
+   7  float                  3 4  then  <class 'float'>
+                             (int() chops, round() rounds, / gives float)
+   8  str                    m 6  then  SamSam
+   9  bool                   True <class 'bool'>  then  False
+  10  None                   None   (add() has no return)
+  11  Lists, tuples, dicts   TypeError: 'tuple' object does not
+                             support item assignment
+  12  Converting types       44  then  8    ("4" * 2 repeats the text)
+
+  13  Name That Type
+        42 → int        "42" → str       4.2 → float
+        True → bool     "True" → str     [4, 2] → list
+        (4, 2) → tuple  {"x": 4} → dict  None → NoneType
+        4 > 2 → bool
+
+  14  Will this code work?
+        Bug 1  TypeError   — "I am " + age  →  str(age) or f-string
+        Bug 2  ValueError  — int("3.5")     →  float("3.5")
+        Bug 3  TypeError   — len(2024)      →  len(str(2024))
+        Bug 4  TypeError   — guess > 5      →  int(guess) > 5
+
+  Every answer above was checked by running the code.
+
+
+── HOW TO RUN PART 2 (CODE-ALONG) ──────────────────────────
+
+  Students open  character_creator_starter.py  — it only has the
+  step headings.  Every step is short (3-8 lines) and ends with
+  show_type(...), so after each F5 students see  ✔ saved as ...
+  and can check the type is what they expected.
+
+  Each step slide has a ▶ RUN IT box telling students what to
+  type and what they should see.
+
+  Note: the program runs from the top every time, so by Step 8
+  students answer 7 questions per run.  That's normal — it's
+  good typing practice and they can answer quickly.
+
+
+── STEP-BY-STEP: COMMON MISTAKES ──────────────────────────
+
+  STEP 1  Name (str)
+    • .strip / .title without ( ) → nothing happens
+    • type(value).__name__ — two underscores on each side
+
+  STEP 2  Level (int)
+    • while level_text.isdigit():  (forgot  not ) → it complains
+      about GOOD answers, then crashes with ValueError on a bad one
+    • Typing a negative or decimal level (-2, 3.5) asks again —
+      .isdigit() only accepts the digits 0-9
+
+  STEP 3  Speed (float)
+    • Typing a word crashes with ValueError — that's expected!
+      (bonus challenge: make it safe)
+
+  STEP 4  Magic (bool)
+    • = "y" instead of == "y" → SyntaxError
+    • Typing "yes" gives False because "yes" isn't "y"
+
+  STEP 5  Backpack (list)
+    • backpack = [] inside the loop → only 1 item survives
+
+  STEP 6  Home (tuple)
+    • Square brackets [x, y] make a list, not a tuple — check
+      the ✔ saved as line says tuple
+
+  STEP 7  Pet (None)
+    • pet = "None" in quotes → saved as str, not NoneType!
+    • Test both ways: a name (str) and just Enter (NoneType)
+
+  STEP 8  Stats (dict)
+    • Missing comma between the lines inside { }
+
+  STEP 9  Hero Card
+    • "name": name  — the key needs quotes, the value doesn't
+    • Ask students to predict each type before running
+
+  STEP 10  Level up
+    • "Level: " + level → TypeError (Bug 1 again!) — use str(level)
+
+
+── DIFFERENTIATION ─────────────────────────────────────────
+
+  NEWER STUDENTS:
+    • Keep the Type Family slide visible during Part 2
+    • They can open character_creator.py side by side and compare
+
+  RETURNING STUDENTS:
+    • Ask them to explain each example to the class
+    • Bonus challenges (slide 29), e.g. a safe speed:
+          speed_text = input("Speed (like 1.5)? ")
+          while not speed_text.replace(".", "", 1).isdigit():
+              speed_text = input("Numbers only! Speed? ")
+          speed = float(speed_text)
+
+
+── HOW IT CONNECTS TO EARLIER WEEKS ───────────────────────
+
+  Week 2   lists (cart)                →  backpack
+  Week 3   dictionaries                →  stats, hero
+  Week 5   variable types review       →  today goes deeper
+  Week 11  read a file → str           →  bonus: save hero.txt
+  Week 12  DRINK_PAIRS: list of tuples →  home = (x, y)
+  Week 13/15  NoneType errors          →  slide 10 explains why
+  Boba Shop  f"${total:.2f}"           →  float formatting
+
+
+═══════════════════════════════════════════════════════════
+  Good luck!  🧙
+═══════════════════════════════════════════════════════════

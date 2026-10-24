@@ -47,3 +47,15 @@ total sales, drink counts and the best seller. The teacher and class fill in
 - `hints.txt` — Tiered hints for each gap
 - `README.txt` — How to open in Thonny + bonus challenges
 - `teacher_notes.txt` — Quiz answers, how to run the code-together, per-gap notes
+
+## Week 16 — Character Creator (Data Types)
+A data-types class: one challenge for each type (int, float, str, bool, None,
+list, tuple, dict) plus converting between them, then a console game the class
+builds together where every answer is saved as a different type and shown on a Hero Card.
+
+**Files:**
+- `character_creator_starter.py` — Student file (step headings only; type along with the slides)
+- `character_creator.py` — Complete version
+- `review_challenges.py` — Every challenge from the slides, runnable to show the answers
+- `README.txt` — How to open in Thonny, the 10 steps, bonus challenges
+- `teacher_notes.txt` — Timing, answers, and common mistakes per step
